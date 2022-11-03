@@ -13,29 +13,32 @@ from sklearn.svm import SVC
 #from sklearn.metrics import accuracy_score,precision_score
 from sklearn.model_selection import train_test_split
 
-def verificaImagenI(ImagenName):
+def verificaImagenI(ImagenName, usuario):
   Ruta_dataset = './Dataset'
   Filas=128
   Columnas=128
-  Dataset=np.zeros((20,Filas*Columnas+1))
+  Dataset=np.zeros((25,Filas*Columnas+1))
 
-  for i in range(0,20,1):
+  for i in range(0,25,1):
     Ruta=Ruta_dataset + '/' + str(i+1) + '.jpg'
     img=cv2.imread(Ruta)
     I_gris=cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     I_gris=cv2.resize(I_gris, (Filas,Columnas), interpolation = cv2.INTER_AREA)
     Dataset[i,0:Filas*Columnas]=I_gris.reshape((1,Filas*Columnas))
-    if i>=0 and i<=5:
+    if i>=0 and i<=4:
       Dataset[i,Filas*Columnas]=1
     else:
-      if i>=6 and i<=10:
+      if i>=5 and i<=9:
         Dataset[i,Filas*Columnas]=2
       else:
-        if i>=11 and i<=15:
+        if i>=10 and i<=14:
           Dataset[i,Filas*Columnas]=3
         else:
-          if i>=16 and i<=20:
+          if i>=15 and i<=19:
             Dataset[i,Filas*Columnas]=4
+          else:
+            if i>=20 and i<=24:
+              Dataset[i,Filas*Columnas]=5
 
 
   #2. Dividing dataset into input (X) and output (Y) variables
@@ -120,12 +123,14 @@ def verificaImagenI(ImagenName):
   Target[0,0:Filas*Columnas]=I_gris.reshape((1,Filas*Columnas))
   Target = scaler.transform(Target)
   Prediction_0 =Modelo_0.predict (Target)
-  if Prediction_0==1:
+  if Prediction_0==1 and usuario == "edwin":
     return "Edwin"
-  if Prediction_0==2:
+  if Prediction_0==2 and usuario == "laura" :
     return "Laura"
-  if Prediction_0==3:
+  if Prediction_0==3 and usuario == "sofia":
     return "Sofia"
-  if Prediction_0==4:
+  if Prediction_0==4 and usuario == "gabriela":
     return "Gabriela"
+  if Prediction_0==5 and usuario == "sol":
+    return "Sol"
   return "No hay similitud"

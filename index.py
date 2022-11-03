@@ -14,11 +14,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-@app.post("/upload")
-async def upload_file(file:UploadFile = File(...)):
+@app.post("/upload/{usuario}")
+async def upload_file(usuario, file:UploadFile = File(...)):
+    print(usuario)
     nuevoNombre = str(uuid.uuid4())+".jpg"
     with open(getcwd() +"/Dataset_val/"+ nuevoNombre, "wb") as myfile:
         content = await file.read()
         myfile.write(content)
         myfile.close()
-    return verificaImagenI(nuevoNombre)
+    return verificaImagenI(nuevoNombre, usuario)
